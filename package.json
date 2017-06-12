@@ -1,0 +1,34 @@
+{ "name": "thekwane-pmb",
+  "version": "0.0.1",
+  "description": "Helps me filter and sort my email.",
+  "keywords": [
+    "email",
+    "imap"
+  ],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/thekwane-pmb-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/thekwane-pmb-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/thekwane-pmb-js/issues"
+  },
+
+  "private": false, "license": "ISC",
+
+  "main": "thekwane.js",
+  "scripts": {
+    "test": "nodejs test/all.js"
+  },
+  "directories": { "doc": "docs" },
+
+  "dependencies": {},
+  "devDependencies": {
+    "equal-pmb": "^0.1.6"
+  },
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}

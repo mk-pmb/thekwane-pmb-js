@@ -27,13 +27,13 @@
   "dependencies": {
     "async": "^2.0.1",
     "imap": "^0.8.19",
-    "imapfetch-collect": "^0.1.1",
+    "imapfetch-collect": "^0.1.2",
     "method-by-name": "^0.1.0",
     "objput": "^0.1.0",
-    "splitcb": "^0.1.1",
-    "usnam-pmb": "^0.2.3"
+    "splitcb": "^0.1.1"
   },
   "devDependencies": {
+    "usnam-pmb": "^0.2.3",
     "equal-pmb": "^0.1.6"
   },
 

@@ -2,6 +2,8 @@
 /* -*- tab-width: 2 -*- */
 'use strict';
 
+require('usnam-pmb');
+
 var EX = module.exports, synd = [],
   thekwane = require('thekwane-pmb');
 
@@ -18,7 +20,7 @@ EX.runFromCLI = function () {
   }
   var cfg = require(guessConfig());
   cfg.decideMail = EX.decideMail.bind(cfg);
-  return thekwane.takeoff(cfg);
+  return thekwane.hatch(cfg).takeoff();
 };
 
 

@@ -2,7 +2,9 @@
 /* -*- tab-width: 2 -*- */
 'use strict';
 
-var EX = module.exports, synd = [];
+var EX = module.exports, synd = [],
+  thekwane = require('thekwane-pmb');
+
 EX.syncDeciders = synd;
 
 function ifObj(x, d) { return ((x && typeof x) === 'object' ? x : d); }
@@ -14,9 +16,9 @@ EX.runFromCLI = function () {
     if (acc.match(/\/|@/)) { return acc; }
     return '../logins/' + acc + '.json';
   }
-  var cfg = require(guessConfig()), tkw = require('thekwane-pmb')(cfg);
-  tkw.on('decideMail', EX.decideMail.bind(tkw));
-  return;
+  var cfg = require(guessConfig());
+  cfg.decideMail = EX.decideMail.bind(cfg);
+  return thekwane.takeoff(cfg);
 };
 
 

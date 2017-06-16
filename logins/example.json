@@ -1,5 +1,7 @@
 ﻿{ "host": "imap.@",
   "port": null,
   "user": "user@example.net",
-  "pass": "topsecret"
+  "pass": "topsecret",
+  "dump:boxes": false,
+  "debug": false
 }

@@ -20,7 +20,7 @@ tedious, so it's time for the Thekwane (lightning bird) to step in.
 Usage
 -----
 
-:TODO:
+see [test/unspam.js](test/unspam.js)
 
 
 <!--#toc stop="scan" -->

@@ -5,7 +5,7 @@
 var EX = function hatchAThekwane() { EX.hatch.apply(this, arguments); };
 
 EX.hatch = require('./src/hatch');
-
+EX.defaultConfig = require('./src/default-config');
 
 
 

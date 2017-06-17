@@ -8,12 +8,15 @@ function unspam () {
   cd "$SELFPATH" || return $?
 
   local LINT_FILES=(
+    ../../imapfetch-collect/*.js*
+    ../../async-util-pmb/*.js*
     ../*.js*
     ../*/*.js*
-    ../../imapfetch-collect/*.js*
     )
   jsl "${LINT_FILES[@]}" || return $?
 
+  local DUMPS='../dumps'
+  [ -d "$DUMPS" ] && export TKW_MAILDUMPPATH="$DUMPS"
   nodejs unspam.js |& tee unspam.log.tmp
   mv -- unspam.log{.tmp,}
 

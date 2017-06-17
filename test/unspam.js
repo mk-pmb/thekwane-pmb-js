@@ -19,6 +19,7 @@ EX.runFromCLI = function () {
     return '../logins/' + acc + '.json';
   }
   var cfg = require(guessConfig());
+  cfg.mailDumpPath = process.env.TKW_MAILDUMPPATH;
   cfg.decideMail = EX.decideMail.bind(cfg);
   return thekwane.hatch(cfg).takeoff();
 };

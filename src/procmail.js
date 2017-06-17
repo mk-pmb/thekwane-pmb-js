@@ -7,8 +7,8 @@ var EX = {},
   posInf = Number.POSITIVE_INFINITY;
 
 
-EX.processOneMail = function (cfg, stats, mail, whenProcessed) {
-  var tkw = this, imapMtd = tkw.imapMtd,
+EX.processOneMail = function (tkw, stats, mail, whenProcessed) {
+  var cfg = tkw.cfg, imapMtd = tkw.imapMtd,
     log = tkw.makeLogger('mail#');
   log(mail || cfg || stats || imapMtd);
   async.waterfall([

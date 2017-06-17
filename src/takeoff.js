@@ -4,9 +4,8 @@
 
 var EX = {}, async = require('async'),
   splitCb = require('splitcb'),
-  storeAsync = require('objput').cb;
-
-function ignoreResult() { return arguments[arguments.length - 1](); }
+  objPut = require('objput'),
+  asyU = require('async-util-pmb');
 
 
 EX = function (tkw) {
@@ -15,10 +14,10 @@ EX = function (tkw) {
   async.waterfall([
     imapMtd('once', 'ready'),
     imapMtd('getBoxes'),
-    storeAsync(tkw, 'boxes'),
+    objPut.cb(tkw, 'boxes'),
     imapMtd('openBox', 'INBOX'),
-    storeAsync(tkw, 'currentBox'),
-    tkw.scanMail, ignoreResult,
+    objPut.cb(tkw, 'currentBox'),
+    tkw.scanMail, asyU.wfDropArgs,
     function (then) {
       checkDump('dump:boxes', tkw.boxes);
       mkLogr('tkw')(tkw);

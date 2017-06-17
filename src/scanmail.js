@@ -5,7 +5,9 @@
 var EX,
   imapFetchCollect = require('imapfetch-collect'),
   async = require('async'),
+  asyU = require('async-util-pmb'),
   makeDateback = require('./dateback'),
+  dumpMsg = require('./dumpmsg'),
   posInf = Number.POSITIVE_INFINITY;
 
 
@@ -14,6 +16,7 @@ function ifUndef(x, d) { return (x === undefined ? d : x); }
 function numSubtract(a, b) { return a - b; }
 function numSortAscInplace(arr) { return arr.sort(numSubtract); }
 
+
 function expectFunc(x, descr) {
   if (ifFun(x)) { return; }
   throw new TypeError(descr + ': expected a Function, not ' + String(x));
@@ -21,11 +24,13 @@ function expectFunc(x, descr) {
 
 
 
-EX = function makeMailScanner(tkw, cfg, log) {
-  var imapMtd = tkw.imapMtd, days = makeDateback(cfg),
+EX = function makeMailScanner(tkw) {
+  var cfg = tkw.cfg, imapMtd = tkw.imapMtd,
+    days = makeDateback(cfg),
+    log = tkw.makeLogger('scanMail'),
     maxMailsPerScan = (+cfg.maxMailsPerScan || posInf),
     collectOpts = {
-      translateHeaderNames: ifUndef(cfg.translateHeaderNames, 'dash2camel'),
+      translateHeaderNames: 'dash2camel',
       maxDecodeBytes: cfg.maxDecodeBytes,
       simpleUniqueHeaders: true,
     };
@@ -36,7 +41,9 @@ EX = function makeMailScanner(tkw, cfg, log) {
     days.inc();
     log('Scan mail up to' + days.cur + ' days old:');
     async.waterfall([
+
       imapMtd('search', cfg.scanCriteria.concat([ days.criterion('SINCE') ])),
+
       function startFetchFoundMails(foundUIDs, then) {
         numSortAscInplace(foundUIDs);
         var nMails = foundUIDs.length, fetcher;
@@ -51,19 +58,14 @@ EX = function makeMailScanner(tkw, cfg, log) {
           function (m, n) { log('fetch msg #' + (m && n)); });
         imapFetchCollect(fetcher, collectOpts, then);
       },
-      function (msgs, then) {
-        msgs.forEach(function (msg) {
-          msg.text = msg.text.split(/\r?\n/);
-        });
-        tkw.fetchedMessages = msgs.slice();
-        then();
-      }
-      //function processFoundMails(mails, then) {
-      //  log('Finished fetching email(s).');
-      //  async.eachLimit(mails, concurrencyLimit,
-      //    EX.processOneMail.bind(tkw, cfg, stats));
-      //},
-    ], function (err) {
+
+      (cfg.mailDumpPath && asyU.wfTap(function (msgs, whenAllDumped) {
+        var dumpCfg = Object.assign({ log: log }, tkw.cfg),
+          dumpOne = dumpMsg.toFile.bind(null, dumpCfg);
+        async.each(msgs, dumpOne, whenAllDumped);
+      })),
+
+    ].filter(Boolean), function (err) {
       scanMail.latestScanStats = stats;
       whenScanned(err, stats);
     });

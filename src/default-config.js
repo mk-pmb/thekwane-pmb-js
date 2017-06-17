@@ -18,6 +18,8 @@ module.exports = {
 
   mailProcConcurrencyLimit: 1,
 
+  mailDumpPath: null,
+  mailDumpFmt: 'json',
 
 
 };

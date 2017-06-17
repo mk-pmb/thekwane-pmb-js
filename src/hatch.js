@@ -35,7 +35,7 @@ EX = function hatchAThekwane(cfg) {
   if (dbg) { logUtil.onMulti(imapConn, logUtil.imapEventNames.conn, mkLogr); }
   tkw.imapMtd = methodByName.binder(imapConn);
   tkw.takeoff = takeoff.bind(null, tkw);
-  tkw.scanMail = makeMailScanner(tkw, cfg, mkLogr('scanMail'));
+  tkw.scanMail = makeMailScanner(tkw);
   return tkw;
 };
 
